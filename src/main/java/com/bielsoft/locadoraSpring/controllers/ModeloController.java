@@ -22,7 +22,6 @@ public class ModeloController {
     }
 
     @GetMapping("{id}")
-    @ResponseBody
     public ResponseEntity obterModelo(@PathVariable Long id){
         return ResponseEntity.ok(service.obterModeloId(id));
     }
@@ -34,14 +33,14 @@ public class ModeloController {
     }
 
     @PutMapping
-    public ResponseEntity atualizarModelo(@PathVariable Long id, RequestModeloDAO requestModeloDAO){
+    public ResponseEntity atualizarModelo(@PathVariable Long id, @RequestBody RequestModeloDAO requestModeloDAO){
         Modelo newModelo = service.atualizarModelo(requestModeloDAO);
         return ResponseEntity.ok(newModelo);
     }
 
     @DeleteMapping
     public ResponseEntity deletarModelo(@PathVariable Long id){
-        service.deletar(id);
+        service.deletarModelo(id);
         return ResponseEntity.ok().build();
     }
 }

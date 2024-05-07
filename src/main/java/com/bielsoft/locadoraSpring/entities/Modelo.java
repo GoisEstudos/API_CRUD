@@ -1,10 +1,7 @@
 package com.bielsoft.locadoraSpring.entities;
 
 import com.bielsoft.locadoraSpring.DAO.RequestModeloDAO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "modelo")
 public class Modelo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

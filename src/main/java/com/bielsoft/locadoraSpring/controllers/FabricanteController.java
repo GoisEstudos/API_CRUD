@@ -12,6 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/fabricante")
+@CrossOrigin(origins = "*")
 public class FabricanteController {
     @Autowired
     private FabricanteService service;
@@ -35,7 +36,7 @@ public class FabricanteController {
     }
 
     @PutMapping
-    public ResponseEntity atualizarFabricante(@PathVariable Long id, RequestFabricanteDAO requestFabricanteDAO){
+    public ResponseEntity atualizarFabricante(@PathVariable Long id, @RequestBody RequestFabricanteDAO requestFabricanteDAO){
         Fabricante newFabricante = service.atualizarFabricante(requestFabricanteDAO);
         return ResponseEntity.ok(newFabricante);
     }
