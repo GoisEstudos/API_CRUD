@@ -1,6 +1,6 @@
 package com.bielsoft.locadoraSpring.entities;
 
-import com.bielsoft.locadoraSpring.DAO.RequestCarroDAO;
+import com.bielsoft.locadoraSpring.DTO.RequestCarroDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,13 +23,13 @@ public class Carro {
     private String ano;
     private Double valorlocacao;
 
-    public Carro(RequestCarroDAO requestCarroDAO) {
-        this.idFabricante = requestCarroDAO.idFabricante();
-        this.idModelo = requestCarroDAO.idModelo();
-        this.placa = requestCarroDAO.placa();
-        this.cor = requestCarroDAO.cor();
-        this.disponivel = requestCarroDAO.disponivel();
-        this.ano = requestCarroDAO.ano();
-        this.valorlocacao = requestCarroDAO.valorlocacao();
+    public Carro(RequestCarroDTO requestCarroDTO) {
+        this.idFabricante = requestCarroDTO.idFabricante();
+        this.idModelo = requestCarroDTO.idModelo();
+        this.placa = requestCarroDTO.placa();
+        this.cor = requestCarroDTO.cor();
+        this.disponivel = requestCarroDTO.disponivel();
+        this.ano = requestCarroDTO.ano();
+        this.valorlocacao = requestCarroDTO.valorlocacao();
     }
 }

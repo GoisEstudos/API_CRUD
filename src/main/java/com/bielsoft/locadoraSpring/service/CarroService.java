@@ -1,10 +1,11 @@
 package com.bielsoft.locadoraSpring.service;
 
-import com.bielsoft.locadoraSpring.DAO.RequestCarroDAO;
+import com.bielsoft.locadoraSpring.DTO.RequestCarroDTO;
 import com.bielsoft.locadoraSpring.entities.Carro;
 import com.bielsoft.locadoraSpring.repositories.CarroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,24 +24,27 @@ public class CarroService {
                 .orElseThrow(() -> new RuntimeException("ID NAO ENCONTRADO"));
     }
 
-    public Carro salvarCarro(RequestCarroDAO requestCarroDAO) {
-        Carro newCarro = new Carro(requestCarroDAO);
+    @Transactional
+    public Carro salvarCarro(RequestCarroDTO requestCarroDTO) {
+        Carro newCarro = new Carro(requestCarroDTO);
         return repository.save(newCarro);
     }
 
-    public Carro atualizarCarro(RequestCarroDAO requestCarroDAO) {
-        Carro newCarro = repository.findById(requestCarroDAO.id())
+    @Transactional
+    public Carro atualizarCarro(RequestCarroDTO requestCarroDTO) {
+        Carro newCarro = repository.findById(requestCarroDTO.id())
                 .orElseThrow(() -> new RuntimeException("ID NAO ENCONTRADO"));
 
-        newCarro.setPlaca(requestCarroDAO.placa());
-        newCarro.setCor(requestCarroDAO.cor());
-        newCarro.setDisponivel(requestCarroDAO.disponivel());
-        newCarro.setAno(requestCarroDAO.ano());
-        newCarro.setValorlocacao(requestCarroDAO.valorlocacao());
+        newCarro.setPlaca(requestCarroDTO.placa());
+        newCarro.setCor(requestCarroDTO.cor());
+        newCarro.setDisponivel(requestCarroDTO.disponivel());
+        newCarro.setAno(requestCarroDTO.ano());
+        newCarro.setValorlocacao(requestCarroDTO.valorlocacao());
 
         return repository.save(newCarro);
     }
 
+    @Transactional
     public void deletarCarro(Long id) {
         repository.findById(id);
     }

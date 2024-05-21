@@ -1,6 +1,6 @@
 package com.bielsoft.locadoraSpring.controllers;
 
-import com.bielsoft.locadoraSpring.DAO.RequestCarroDAO;
+import com.bielsoft.locadoraSpring.DTO.RequestCarroDTO;
 import com.bielsoft.locadoraSpring.entities.Carro;
 import com.bielsoft.locadoraSpring.service.CarroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/carro")
+@CrossOrigin(origins = "*")
 public class CarroController {
 
     @Autowired
@@ -23,24 +24,24 @@ public class CarroController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity obterCarro(@PathVariable Long id){
+    public ResponseEntity<Carro> obterCarro(@PathVariable Long id){
         return ResponseEntity.ok(service.obterCarroId(id));
     }
 
     @PostMapping
-    public ResponseEntity salvarCarro(@RequestBody RequestCarroDAO requestCarroDAO){
-        Carro newCarro = service.salvarCarro(requestCarroDAO);
+    public ResponseEntity<Carro> salvarCarro(@RequestBody RequestCarroDTO requestCarroDTO){
+        Carro newCarro = service.salvarCarro(requestCarroDTO);
         return ResponseEntity.ok(newCarro);
     }
 
-    @PutMapping
-    public ResponseEntity atualizarCarro(@PathVariable Long id, @RequestBody RequestCarroDAO requestCarroDAO){
-        Carro newCarro = service.atualizarCarro(requestCarroDAO);
+    @PatchMapping
+    public ResponseEntity<Carro> atualizarCarro(@PathVariable Long id, @RequestBody RequestCarroDTO requestCarroDTO){
+        Carro newCarro = service.atualizarCarro(requestCarroDTO);
         return ResponseEntity.ok(newCarro);
     }
 
     @DeleteMapping
-    public ResponseEntity deletarCarro(@PathVariable Long id){
+    public ResponseEntity<Carro> deletarCarro(@PathVariable Long id){
         service.deletarCarro(id);
         return ResponseEntity.ok().build();
     }

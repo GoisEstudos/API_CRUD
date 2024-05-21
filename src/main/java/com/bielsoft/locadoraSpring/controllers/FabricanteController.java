@@ -1,6 +1,6 @@
 package com.bielsoft.locadoraSpring.controllers;
 
-import com.bielsoft.locadoraSpring.DAO.RequestFabricanteDAO;
+import com.bielsoft.locadoraSpring.DTO.RequestFabricanteDTO;
 import com.bielsoft.locadoraSpring.entities.Fabricante;
 import com.bielsoft.locadoraSpring.service.FabricanteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,25 +24,25 @@ public class FabricanteController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity obterfabricante(@PathVariable Long id) {
+    public ResponseEntity<Fabricante> obterfabricante(@PathVariable Long id) {
         Fabricante fabricante = service.obterFabricanteId(id);
         return ResponseEntity.ok(fabricante);
     }
 
     @PostMapping
-    public ResponseEntity salvarFabricante(@RequestBody RequestFabricanteDAO requestFabricanteDAO){
-        Fabricante newFabricante = service.salvarFabricante(requestFabricanteDAO);
+    public ResponseEntity<Fabricante> salvarFabricante(@RequestBody RequestFabricanteDTO requestFabricanteDTO){
+        Fabricante newFabricante = service.salvarFabricante(requestFabricanteDTO);
         return ResponseEntity.ok(newFabricante);
     }
 
-    @PutMapping
-    public ResponseEntity atualizarFabricante(@PathVariable Long id, @RequestBody RequestFabricanteDAO requestFabricanteDAO){
-        Fabricante newFabricante = service.atualizarFabricante(requestFabricanteDAO);
+    @PatchMapping
+    public ResponseEntity<Fabricante> atualizarFabricante(@PathVariable Long id, @RequestBody RequestFabricanteDTO requestFabricanteDTO){
+        Fabricante newFabricante = service.atualizarFabricante(requestFabricanteDTO);
         return ResponseEntity.ok(newFabricante);
     }
 
     @DeleteMapping
-    public ResponseEntity deletarFabricante(@PathVariable Long id, @RequestBody RequestFabricanteDAO requestFabricanteDAO){
+    public ResponseEntity<Fabricante> deletarFabricante(@PathVariable Long id, @RequestBody RequestFabricanteDTO requestFabricanteDTO){
         service.deletarFabricanteId(id);
         return ResponseEntity.ok().build();
     }

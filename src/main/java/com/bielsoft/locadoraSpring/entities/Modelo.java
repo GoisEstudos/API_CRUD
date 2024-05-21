@@ -1,6 +1,6 @@
 package com.bielsoft.locadoraSpring.entities;
 
-import com.bielsoft.locadoraSpring.DAO.RequestModeloDAO;
+import com.bielsoft.locadoraSpring.DTO.RequestModeloDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +18,8 @@ public class Modelo {
     private String nome;
     private Long id_fabricante;
 
-    public Modelo(RequestModeloDAO requestModeloDAO){
-         this.nome = requestModeloDAO.nome();
-         this.id_fabricante = requestModeloDAO.id_fabricante();
+    public Modelo(RequestModeloDTO requestModeloDTO){
+         this.nome = requestModeloDTO.nome();
+         this.id_fabricante = requestModeloDTO.id_fabricante();
     }
 }

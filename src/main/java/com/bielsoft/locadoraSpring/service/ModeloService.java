@@ -1,10 +1,11 @@
 package com.bielsoft.locadoraSpring.service;
 
-import com.bielsoft.locadoraSpring.DAO.RequestModeloDAO;
+import com.bielsoft.locadoraSpring.DTO.RequestModeloDTO;
 import com.bielsoft.locadoraSpring.entities.Modelo;
 import com.bielsoft.locadoraSpring.repositories.ModeloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,19 +24,22 @@ public class ModeloService {
                 .orElseThrow(() -> new NoSuchElementException("MODELO NAO ENCONTRADO"));
     }
 
-    public Modelo salvarModelo(RequestModeloDAO requestModeloDAO) {
-        Modelo newModelo = new Modelo(requestModeloDAO);
+    @Transactional
+    public Modelo salvarModelo(RequestModeloDTO requestModeloDTO) {
+        Modelo newModelo = new Modelo(requestModeloDTO);
         return repository.save(newModelo);
     }
 
-    public Modelo atualizarModelo(RequestModeloDAO requestModeloDAO) {
-        Modelo newModelo = repository.findById(requestModeloDAO.id())
+    @Transactional
+    public Modelo atualizarModelo(RequestModeloDTO requestModeloDTO) {
+        Modelo newModelo = repository.findById(requestModeloDTO.id())
                 .orElseThrow(() -> new RuntimeException("ID NAO ENCONTRADO"));
 
-        newModelo.setNome(requestModeloDAO.nome());
+        newModelo.setNome(requestModeloDTO.nome());
         return repository.save(newModelo);
     }
 
+    @Transactional
     public void deletarModelo(Long id) {
         repository.deleteById(id);
     }
