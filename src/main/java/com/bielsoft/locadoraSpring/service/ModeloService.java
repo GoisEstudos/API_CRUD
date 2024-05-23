@@ -1,8 +1,12 @@
 package com.bielsoft.locadoraSpring.service;
 
+import com.bielsoft.locadoraSpring.DTO.RequestFabricanteDTO;
 import com.bielsoft.locadoraSpring.DTO.RequestModeloDTO;
 import com.bielsoft.locadoraSpring.entities.Modelo;
+import com.bielsoft.locadoraSpring.exceptions.FabricanteExistenteException;
+import com.bielsoft.locadoraSpring.exceptions.ModeloExisteException;
 import com.bielsoft.locadoraSpring.repositories.ModeloRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +29,14 @@ public class ModeloService {
     }
 
     @Transactional
-    public Modelo salvarModelo(RequestModeloDTO requestModeloDTO) {
+    public Modelo salvarModelo(@Valid RequestModeloDTO requestModeloDTO) {
+        existeModelo(requestModeloDTO);
         Modelo newModelo = new Modelo(requestModeloDTO);
         return repository.save(newModelo);
     }
 
     @Transactional
-    public Modelo atualizarModelo(RequestModeloDTO requestModeloDTO) {
+    public Modelo atualizarModelo(@Valid RequestModeloDTO requestModeloDTO) {
         Modelo newModelo = repository.findById(requestModeloDTO.id())
                 .orElseThrow(() -> new RuntimeException("ID NAO ENCONTRADO"));
 
@@ -42,5 +47,15 @@ public class ModeloService {
     @Transactional
     public void deletarModelo(Long id) {
         repository.deleteById(id);
+    }
+
+
+    public String existeModelo(RequestModeloDTO requestModeloDTO) {
+        String existeModelo = requestModeloDTO.nome();
+        Long existeIdFabricante = requestModeloDTO.id_fabricante();
+        if (repository.findByNome(existeModelo) && repository.findByIdFabricante(existeIdFabricante)) {
+            throw new ModeloExisteException("MODELO JA EXISTE");
+        }
+        return existeModelo;
     }
 }

@@ -3,6 +3,7 @@ package com.bielsoft.locadoraSpring.service;
 import com.bielsoft.locadoraSpring.DTO.RequestCarroDTO;
 import com.bielsoft.locadoraSpring.entities.Carro;
 import com.bielsoft.locadoraSpring.repositories.CarroRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +26,13 @@ public class CarroService {
     }
 
     @Transactional
-    public Carro salvarCarro(RequestCarroDTO requestCarroDTO) {
+    public Carro salvarCarro(@Valid RequestCarroDTO requestCarroDTO) {
         Carro newCarro = new Carro(requestCarroDTO);
         return repository.save(newCarro);
     }
 
     @Transactional
-    public Carro atualizarCarro(RequestCarroDTO requestCarroDTO) {
+    public Carro atualizarCarro(@Valid RequestCarroDTO requestCarroDTO) {
         Carro newCarro = repository.findById(requestCarroDTO.id())
                 .orElseThrow(() -> new RuntimeException("ID NAO ENCONTRADO"));
 
