@@ -35,7 +35,7 @@ public class CarroController {
     }
 
     @PatchMapping
-    public ResponseEntity<Carro> atualizarCarro(@PathVariable Long id, @RequestBody RequestCarroDTO requestCarroDTO){
+    public ResponseEntity<Carro> atualizarCarro(@RequestBody RequestCarroDTO requestCarroDTO){
         Carro newCarro = service.atualizarCarro(requestCarroDTO);
         return ResponseEntity.ok(newCarro);
     }

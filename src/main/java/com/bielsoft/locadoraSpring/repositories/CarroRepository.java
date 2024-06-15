@@ -7,4 +7,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CarroRepository extends JpaRepository<Carro, Long> {
 
+    boolean existsByIdFabricante(Long idFabricante);
+
+    boolean existsByIdModelo(Long idModelo);
+
+    boolean existsByPlacaIgnoreCase(String placa);
+
+    boolean dontExistsByIdFabricante(Long idFabricante);
+
+    boolean dontExistsByIdModelo(Long idModelo);
 }

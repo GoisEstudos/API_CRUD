@@ -1,7 +1,7 @@
 package com.bielsoft.locadoraSpring.exceptions;
 
-public class FabricanteExistenteException extends RuntimeException{
-    public FabricanteExistenteException(String message) {
-        super(message);
+public class FabricanteExistenteException extends ExceptionAbstrata{
+    public FabricanteExistenteException() {
+        super("VALOR JA EXISTE");
     }
 }

@@ -16,10 +16,10 @@ public class Modelo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private Long id_fabricante;
+    private Long idFabricante;
 
     public Modelo(RequestModeloDTO requestModeloDTO){
          this.nome = requestModeloDTO.nome();
-         this.id_fabricante = requestModeloDTO.id_fabricante();
+         this.idFabricante = requestModeloDTO.id_fabricante();
     }
 }

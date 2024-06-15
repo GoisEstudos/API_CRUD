@@ -4,7 +4,9 @@ import com.bielsoft.locadoraSpring.DTO.RequestFabricanteDTO;
 import com.bielsoft.locadoraSpring.DTO.RequestModeloDTO;
 import com.bielsoft.locadoraSpring.entities.Modelo;
 import com.bielsoft.locadoraSpring.exceptions.FabricanteExistenteException;
+import com.bielsoft.locadoraSpring.exceptions.FabricanteNaoEncontradoException;
 import com.bielsoft.locadoraSpring.exceptions.ModeloExisteException;
+import com.bielsoft.locadoraSpring.exceptions.ModeloNaoEncontradoException;
 import com.bielsoft.locadoraSpring.repositories.ModeloRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ public class ModeloService {
 
     public Modelo obterModeloId(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("MODELO NAO ENCONTRADO"));
+                .orElseThrow(() -> new ModeloNaoEncontradoException());
     }
 
     @Transactional
@@ -38,7 +40,7 @@ public class ModeloService {
     @Transactional
     public Modelo atualizarModelo(@Valid RequestModeloDTO requestModeloDTO) {
         Modelo newModelo = repository.findById(requestModeloDTO.id())
-                .orElseThrow(() -> new RuntimeException("ID NAO ENCONTRADO"));
+                .orElseThrow(() -> new ModeloNaoEncontradoException());
 
         newModelo.setNome(requestModeloDTO.nome());
         return repository.save(newModelo);
@@ -49,12 +51,17 @@ public class ModeloService {
         repository.deleteById(id);
     }
 
-
-    public String existeModelo(RequestModeloDTO requestModeloDTO) {
+    private String existeModelo(RequestModeloDTO requestModeloDTO) {
         String existeModelo = requestModeloDTO.nome();
-        Long existeIdFabricante = requestModeloDTO.id_fabricante();
-        if (repository.findByNome(existeModelo) && repository.findByIdFabricante(existeIdFabricante)) {
-            throw new ModeloExisteException("MODELO JA EXISTE");
+        Long idFabricante = requestModeloDTO.id_fabricante();
+        if (repository.existsByNomeIgnoreCase(existeModelo)) {
+            throw new ModeloExisteException();
+        }
+        if (repository.existsByIdFabricante(idFabricante)){
+            throw new FabricanteExistenteException();
+        }
+        if (repository.dontExistsByIdFabricanteByIdFabricante(idFabricante)) {
+            throw new FabricanteNaoEncontradoException();
         }
         return existeModelo;
     }

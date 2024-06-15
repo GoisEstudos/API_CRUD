@@ -1,8 +1,11 @@
 package com.bielsoft.locadoraSpring.controllers;
 
 import com.bielsoft.locadoraSpring.DTO.RequestFabricanteDTO;
+import com.bielsoft.locadoraSpring.advice.ApplicationExceptionHandler;
 import com.bielsoft.locadoraSpring.entities.Fabricante;
+import com.bielsoft.locadoraSpring.exceptions.ExceptionAbstrata;
 import com.bielsoft.locadoraSpring.service.FabricanteService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,7 +15,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/fabricante")
-@CrossOrigin(origins = "*")
 public class FabricanteController {
     @Autowired
     private FabricanteService service;
@@ -36,13 +38,13 @@ public class FabricanteController {
     }
 
     @PatchMapping
-    public ResponseEntity<Fabricante> atualizarFabricante(@PathVariable Long id, @RequestBody RequestFabricanteDTO requestFabricanteDTO){
+    public ResponseEntity<Fabricante> atualizarFabricante(@RequestBody RequestFabricanteDTO requestFabricanteDTO){
         Fabricante newFabricante = service.atualizarFabricante(requestFabricanteDTO);
         return ResponseEntity.ok(newFabricante);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Fabricante> deletarFabricante(@PathVariable Long id, @RequestBody RequestFabricanteDTO requestFabricanteDTO){
+    @DeleteMapping("{id}")
+    public ResponseEntity<Fabricante> deletarFabricante(@PathVariable Long id){
         service.deletarFabricanteId(id);
         return ResponseEntity.ok().build();
     }

@@ -34,7 +34,7 @@ public class ModeloController {
     }
 
     @PatchMapping
-    public ResponseEntity<Modelo> atualizarModelo(@PathVariable Long id, @RequestBody RequestModeloDTO requestModeloDTO){
+    public ResponseEntity<Modelo> atualizarModelo(@RequestBody RequestModeloDTO requestModeloDTO){
         Modelo newModelo = service.atualizarModelo(requestModeloDTO);
         return ResponseEntity.ok(newModelo);
     }

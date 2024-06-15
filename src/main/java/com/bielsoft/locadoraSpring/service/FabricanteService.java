@@ -1,9 +1,9 @@
 package com.bielsoft.locadoraSpring.service;
 
-import com.bielsoft.locadoraSpring.DTO.FabricanteExistenteExceptionDTO;
 import com.bielsoft.locadoraSpring.DTO.RequestFabricanteDTO;
 import com.bielsoft.locadoraSpring.entities.Fabricante;
 import com.bielsoft.locadoraSpring.exceptions.FabricanteExistenteException;
+import com.bielsoft.locadoraSpring.exceptions.FabricanteNaoEncontradoException;
 import com.bielsoft.locadoraSpring.repositories.FabricanteRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class FabricanteService {
 
     public Fabricante obterFabricanteId(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("FABRICANTE NÃO ENCONTRADA"));
+                .orElseThrow(() -> new FabricanteNaoEncontradoException());
     }
 
     @Transactional
@@ -36,7 +36,7 @@ public class FabricanteService {
     @Transactional
     public Fabricante atualizarFabricante(@Valid RequestFabricanteDTO requestFabricanteDTO){
         Fabricante newFabricante = repository.findById(requestFabricanteDTO.id())
-                .orElseThrow(() -> new RuntimeException("FABRICANTE NÃO ENCONTRADO"));
+                .orElseThrow(() -> new FabricanteNaoEncontradoException());
         newFabricante.setNome(requestFabricanteDTO.nome());
         return repository.save(newFabricante);
     }
@@ -46,10 +46,10 @@ public class FabricanteService {
         repository.deleteById(id);
     }
 
-    public String existeFabricante(RequestFabricanteDTO requestFabricanteDTO) {
+    private String existeFabricante(RequestFabricanteDTO requestFabricanteDTO) {
         String existeFabricante = requestFabricanteDTO.nome();
-        if (repository.findByNome(existeFabricante)){
-            throw new FabricanteExistenteException("FABRICANTE JA EXISTE");
+        if (repository.existsByNomeIgnoreCase(existeFabricante)){
+            throw new FabricanteExistenteException();
         }
         return existeFabricante;
     }

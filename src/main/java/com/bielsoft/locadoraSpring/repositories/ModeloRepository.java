@@ -6,6 +6,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ModeloRepository extends JpaRepository<Modelo, Long> {
-    Boolean findByNome(String nome);
-    Boolean findByIdFabricante(Long id);
+
+    boolean existsByNomeIgnoreCase(String nome);
+
+    boolean existsByIdFabricante(Long idFabricante);
+
+    boolean dontExistsByIdFabricanteByIdFabricante(Long idFabricante);
+
 }

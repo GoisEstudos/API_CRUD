@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface FabricanteRepository extends JpaRepository<Fabricante, Long> {
-    Boolean findByNome(String nome);
+    boolean existsByNomeIgnoreCase(String nome);
 }
